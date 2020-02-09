@@ -21,6 +21,9 @@ export default function App() {
       setMessage(`Your guess ${number} is correct`);
       Alert.alert(`You guessed the number in ${guessAmount} guesses.`);
       reset();
+    } else if (number > 100 || number < 0) {
+      setMessage(`Your number ${number}  is not in the range`);
+      setGuessAmount(guessAmount + 1);
     } else if (secretNumber > number) {
       setMessage(`Your guess ${number} is too low`);
       setGuessAmount(guessAmount + 1);
@@ -32,12 +35,20 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <View style={{ margin: "30%" }}>
-        <Text>{message}</Text>
+      <View style={{ margin: "20%", alignItems: "center" }}>
+        <Text style={{ textAlign: "center", fontWeight: "bold" }}>
+          {message}
+        </Text>
       </View>
 
       <TextInput
-        style={{ width: 30, borderColor: "gray", borderWidth: 1 }}
+        style={{
+          width: 40,
+          borderColor: "gray",
+          borderWidth: 1,
+          fontWeight: "bold"
+        }}
+        textAlign="center"
         onChangeText={number => setNumber(number)}
         value={number}
         keyboardType={"numeric"}
@@ -45,11 +56,13 @@ export default function App() {
       <View
         style={{
           flexDirection: "row",
-          backgroundColor: "black",
-          marginTop: "20%"
+
+          marginTop: "20%",
+          fontWeight: "bold",
+          backgroundColor: "blue"
         }}
       >
-        <Button onPress={compare} title="MAKE GUESS" />
+        <Button color="white" onPress={compare} title="MAKE GUESS" />
       </View>
     </View>
   );
