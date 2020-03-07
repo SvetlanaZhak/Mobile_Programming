@@ -27,7 +27,7 @@ export default function App() {
     <View style={styles.container}>
       <TextInput
         style={{
-          width: 150,
+          width: 200,
           borderColor: "gray",
           borderWidth: 1,
           alignItems: "center",
@@ -38,18 +38,26 @@ export default function App() {
       />
 
       <View style={styles.rowButton}>
-        <Button onPress={addData} title="ADD" style={styles.plusPressed} />
         <Button
+          color="white"
+          onPress={addData}
+          title="ADD"
+          style={styles.add}
+        />
+        <Button
+          color="white"
           onPress={deleteData}
           title="CLEAR"
-          style={styles.minusPressed}
+          style={styles.delete}
         />
       </View>
-      <Text>Shopping List</Text>
-      <FlatList
-        data={data}
-        renderItem={({ item }) => <Text>{item.key}</Text>}
-      />
+      <View style={styles.list}>
+        <Text style={{ color: "blue", fontWeight: "bold" }}>Shopping List</Text>
+        <FlatList
+          data={data}
+          renderItem={({ item }) => <Text>{item.key}</Text>}
+        />
+      </View>
     </View>
   );
 }
@@ -63,16 +71,13 @@ const styles = StyleSheet.create({
     marginTop: "50%"
   },
   rowButton: {
-    width: "25%",
+    marginTop: "10%",
     flexDirection: "row",
-    justifyContent: "space-between"
+    justifyContent: "space-between",
+    backgroundColor: "blue"
   },
-
-  plusPressed: {
-    width: "50%"
-  },
-
-  minusPressed: {
-    width: "50%"
+  list: {
+    marginTop: "10%",
+    alignItems: "center"
   }
 });
