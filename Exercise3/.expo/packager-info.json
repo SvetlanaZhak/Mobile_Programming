@@ -1,9 +1,9 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 12327,
-  "expoServerNgrokUrl": "https://yd-4m2.lanita.exercise3.exp.direct",
-  "packagerNgrokUrl": "https://packager.yd-4m2.lanita.exercise3.exp.direct",
-  "ngrokPid": 12422
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null
 }
