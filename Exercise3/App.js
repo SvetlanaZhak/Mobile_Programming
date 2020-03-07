@@ -1,79 +1,91 @@
 import React, { useState } from "react";
-import { StyleSheet, View, Button, Alert, TextInput, Text } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Button,
+  Alert,
+  TextInput,
+  Text,
+  FlatList
+} from "react-native";
 
 export default function App() {
-  const [number, setNumber] = useState("");
-  const [secretNumber, setSecretNumber] = useState(
-    Math.floor(Math.random() * 100) + 1
-  );
-
-  const [message, setMessage] = useState("Guees a number between 1-100");
-  const [guessAmount, setGuessAmount] = useState(0);
-
-  const reset = () => {
-    setNumber("");
-    setSecretNumber(Math.floor(Math.random() * 100) + 1);
-    setMessage("Guess a number between 1-100");
-    setGuessAmount(0);
+  const [number1, setNumber1] = useState("");
+  const [number2, setNumber2] = useState("");
+  const [result, setResult] = useState();
+  const [data, setData] = useState([]);
+  const plusPressed = () => {
+    setResult(Number(number1) + Number(number2));
+    const text = `${number1} + ${number2} = ${Number(number1) +
+      Number(number2)}`;
+    setData([...data, { key: text }]);
   };
-  const compare = () => {
-    if (secretNumber == number) {
-      setMessage(`Your guess ${number} is correct`);
-      Alert.alert(`You guessed the number in ${guessAmount} guesses.`);
-      reset();
-    } else if (number > 100 || number < 0) {
-      setMessage(`Your number ${number}  is not in the range`);
-      setGuessAmount(guessAmount + 1);
-    } else if (secretNumber > number) {
-      setMessage(`Your guess ${number} is too low`);
-      setGuessAmount(guessAmount + 1);
-    } else if (secretNumber < number) {
-      setMessage(`Your guess ${number} is too high`);
-      setGuessAmount(guessAmount + 1);
-    } else Alert.alert(`Input valid number between 1-100`);
+  const minusPressed = () => {
+    setResult(number1 - number2);
+    const text = `${number1} - ${number2} = ${Number(number1) -
+      Number(number2)}`;
+    setData([...data, { key: text }]);
+    setData([...data, { key: text }]);
   };
 
   return (
     <View style={styles.container}>
-      <View style={{ margin: "20%", alignItems: "center" }}>
-        <Text style={{ textAlign: "center", fontWeight: "bold" }}>
-          {message}
-        </Text>
-      </View>
-
+      <Text>Result: {result}</Text>
       <TextInput
         style={{
-          width: 40,
+          width: 150,
           borderColor: "gray",
           borderWidth: 1,
-          fontWeight: "bold"
+          alignItems: "center",
+          textAlign: "center"
         }}
-        textAlign="center"
-        onChangeText={number => setNumber(number)}
-        value={number}
+        onChangeText={number1 => setNumber1(number1)}
+        value={number1}
         keyboardType={"numeric"}
       />
-      <View
+      <TextInput
         style={{
-          flexDirection: "row",
-
-          marginTop: "20%",
-          fontWeight: "bold",
-          backgroundColor: "blue"
+          width: 150,
+          borderColor: "gray",
+          borderWidth: 1,
+          textAlign: "center"
         }}
-      >
-        <Button color="white" onPress={compare} title="MAKE GUESS" />
+        onChangeText={number2 => setNumber2(number2)}
+        value={number2}
+        keyboardType={"numeric"}
+      />
+      <View style={styles.rowButton}>
+        <Button onPress={plusPressed} title="+" style={styles.plusPressed} />
+        <Button onPress={minusPressed} title="-" style={styles.minusPressed} />
       </View>
+      <Text>History</Text>
+      <FlatList
+        data={data}
+        renderItem={({ item }) => <Text>{item.key}</Text>}
+      />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 2,
+    backgroundColor: "#fff",
     justifyContent: "center",
     alignItems: "center",
-    padding: "10%",
-    marginTop: "50%"
+    marginTop: "70%"
+  },
+  rowButton: {
+    width: "25%",
+    flexDirection: "row",
+    justifyContent: "space-between"
+  },
+
+  plusPressed: {
+    width: "50%"
+  },
+
+  minusPressed: {
+    width: "50%"
   }
 });
