@@ -69,11 +69,12 @@ export default function App() {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 2,
+    flex: 1,
     backgroundColor: "#fff",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: "70%"
+    marginTop: "50%",
+    marginTop: "50%"
   },
   rowButton: {
     width: "25%",
