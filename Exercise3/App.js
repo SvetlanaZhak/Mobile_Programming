@@ -73,7 +73,6 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: "50%",
     marginTop: "50%"
   },
   rowButton: {
