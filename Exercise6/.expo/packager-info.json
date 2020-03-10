@@ -1,9 +1,9 @@
 {
   "devToolsPort": 19002,
-  "expoServerPort": null,
-  "packagerPort": null,
-  "packagerPid": null,
+  "expoServerPort": 19000,
+  "packagerPort": 19003,
+  "packagerPid": 15251,
   "expoServerNgrokUrl": "https://72-fgt.lanita.exercise6.exp.direct",
   "packagerNgrokUrl": "https://packager.72-fgt.lanita.exercise6.exp.direct",
-  "ngrokPid": 14426
+  "ngrokPid": 15325
 }

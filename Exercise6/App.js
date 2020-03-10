@@ -9,36 +9,15 @@ import {
   AsyncStorage
 } from "react-native";
 
-const storeData = async guessAmount => {
-  try {
-    await AsyncStorage.setItem("highscore", JSON.stringify(guessAmount));
-  } catch (err) {
-    console.log(error);
-  }
-};
-
 export default function App() {
   const [number, setNumber] = useState("");
   const [guessAmount, setGuessAmount] = useState(0);
   const [highscore, setHighScore] = useState(100);
   const [secretNumber, setSecretNumber] = useState(
-    50
-    //Math.floor(Math.random() * 100) + 1
+    Math.floor(Math.random() * 100) + 1
   );
 
-  useEffect(() => {
-    const getHighScoreFromPrevieusPlay = async () => {
-      try {
-        const previous = await AsyncStorage.getItem("highscore");
-        if (previous) {
-          setHighScore(previous);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getHighScoreFromPrevieusPlay();
-  }, []);
+  useEffect(() => async () => getHighScoreFromPrevieusPlay());
 
   const [message, setMessage] = useState("Guees a number between 1-100");
 
@@ -46,7 +25,6 @@ export default function App() {
     setNumber("");
     setSecretNumber(Math.floor(Math.random() * 100) + 1);
     setMessage("Guess a number between 1-100");
-    setGuessAmount(0);
   };
 
   const compare = () => {
@@ -54,10 +32,8 @@ export default function App() {
       setMessage(`Your guess ${number} is correct`);
       const guesses = guessAmount + 1;
       Alert.alert(`You guessed the number in ${guesses} guesses.`);
-      if (guesses < JSON.parse(highscore)) {
-        AsyncStorage.setItem("highscore1", guesses);
-        setHighScore(guesses);
-      }
+
+      saveData(highscore);
       reset();
     } else if (number > 100 || number < 0) {
       setMessage(`Your number ${number}  is not in the range`);
@@ -71,10 +47,46 @@ export default function App() {
     } else Alert.alert(`Input valid number between 1-100`);
   };
 
+  const saveData = async highScore => {
+    try {
+      if (guessAmount + 1 < highScore || highScore === null) {
+        await AsyncStorage.setItem(
+          "guessAmount",
+          JSON.stringify(guessAmount + 1)
+        );
+      }
+    } catch (e) {
+      console.log(e);
+      Alert.alert("Error saving data");
+    }
+  };
+
+  const getHighScoreFromPrevieusPlay = async () => {
+    try {
+      const savedCounter = await AsyncStorage.getItem("guessAmount");
+      let parsedSavedCounter = JSON.parse(savedCounter);
+      setHighScore(parsedSavedCounter);
+      console.log("guessAmount", guessAmount);
+      console.log("parsedSavedCounter", parsedSavedCounter);
+    } catch (error) {
+      Alert.alert("Error reading data from storage");
+    }
+  };
+
   return (
     <View style={styles.container}>
-      <View style={{ margin: "20%", alignItems: "center" }}>
-        <Text style={{ textAlign: "center", fontWeight: "bold" }}>
+      <View
+        style={{
+          margin: "20%",
+          alignItems: "center"
+        }}
+      >
+        <Text
+          style={{
+            textAlign: "center",
+            fontWeight: "bold"
+          }}
+        >
           {message}
         </Text>
       </View>
@@ -102,7 +114,8 @@ export default function App() {
       >
         <Button color="white" onPress={compare} title="MAKE GUESS" />
       </View>
-      <Text>Highscore: {highscore} </Text>
+
+      {highscore && <Text>Highscore: {highscore} guesses </Text>}
     </View>
   );
 }
