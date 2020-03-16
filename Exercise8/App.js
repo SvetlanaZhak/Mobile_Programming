@@ -10,7 +10,7 @@ import {
   Image
 } from "react-native";
 
-export default function excercise8CurrencyConverter() {
+export default function App() {
   const [amount, setAmount] = useState("");
   const [results, setResults] = useState({});
   const [currency, setCurrency] = useState([]);
