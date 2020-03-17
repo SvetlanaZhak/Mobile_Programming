@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   StyleSheet,
   Text,
@@ -9,28 +9,46 @@ import {
   Dimensions
 } from "react-native";
 import MapView, { Marker } from "react-native-maps";
+import * as Location from "expo-location";
 
 export default function App() {
   const [address, setAddress] = useState("");
-  const [region, setRegion] = useState({
-    latitude: 60.200692,
-    longitude: 24.934302,
-    latitudeDelta: 0.0322,
-    longitudeDelta: 0.0221
-  });
 
+  const [location, setLocation] = useState(null);
+
+  useEffect(() => {
+    getLocation();
+    console.log("location", location);
+  }, []);
+
+  const getLocation = async () => {
+    let { status } = await Location.requestPermissionsAsync();
+    if (status !== "granted") {
+      Alert.alert("No permission to access location");
+    } else {
+      let location = await Location.getCurrentPositionAsync({});
+      console.log("GOT SOMETHING", location.coords);
+      setLocation({
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+        latitudeDelta: 0.0322,
+        longitudeDelta: 0.0221
+      });
+    }
+  };
   const getMap = () => {
     fetch(
       `http://www.mapquestapi.com/geocoding/v1/batch?key=BKAAGIq0BEG0G126V6n7NYIBbvxK6K5G&location=${address}`
     )
       .then(response => response.json())
       .then(responseJson => {
-        setRegion({
+        setLocation({
           latitude: responseJson.results[0].locations[0].displayLatLng.lat,
           longitude: responseJson.results[0].locations[0].displayLatLng.lng,
           latitudeDelta: 0.0322,
           longitudeDelta: 0.0221
         });
+        console.log("HERE!!!", location);
       })
 
       .catch(error => {
@@ -40,13 +58,8 @@ export default function App() {
 
   return (
     <>
-      <MapView style={{ flex: 1 }} region={region}>
-        <Marker
-          coordinate={{
-            latitude: region.latitude,
-            longitude: region.longitude
-          }}
-        />
+      <MapView style={{ flex: 1 }} region={location}>
+        <Marker coordinate={location} />
       </MapView>
       <View style={styles.container}>
         <TextInput

@@ -1,0 +1,10 @@
+{
+  "devToolsPort": 19002,
+  "expoServerPort": 19000,
+  "packagerPort": 19003,
+  "packagerPid": 56730,
+  "expoServerNgrokUrl": "https://9x-ffs.lanita.exercise11.exp.direct",
+  "packagerNgrokUrl": "https://packager.9x-ffs.lanita.exercise11.exp.direct",
+  "ngrokPid": 56817,
+  "webpackServerPort": null
+}
